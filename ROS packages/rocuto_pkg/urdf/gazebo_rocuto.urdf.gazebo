@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<robot>
+  <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+    <robotNamespace>rocuto</robotNamespace>
+    <controlPeriod>0.01</controlPeriod>
+    <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+  </plugin>
+
+
+</robot>
