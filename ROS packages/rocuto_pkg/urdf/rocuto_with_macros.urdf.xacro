@@ -33,19 +33,19 @@
   <xacro:property name="frame_z_origin" value="0.5" />
 
   <!-- joint 1 origin -->
-  <xacro:property name="joint1_x" value="0" />
-  <xacro:property name="joint1_y" value="${frame_y_size}" />
-  <xacro:property name="joint1_z" value="0" />
+  <xacro:property name="joint1_x" value="${frame_x_origin}" />
+  <xacro:property name="joint1_y" value="${frame_y_origin + 0.2}" />
+  <xacro:property name="joint1_z" value="${frame_z_origin - 0.5}" />
 
   <!-- joint 2 origin -->
-  <xacro:property name="joint2_x" value="${joint1_x}" />
-  <xacro:property name="joint2_y" value="${joint1_y + 0.5}" />
-  <xacro:property name="joint2_z" value="${joint1_z}" />
+  <xacro:property name="joint2_x" value="${frame_x_origin}" />
+  <xacro:property name="joint2_y" value="${frame_y_origin + 0.2 + 0.5}" />
+  <xacro:property name="joint2_z" value="${frame_z_origin - 0.5}" />
 
   <!-- joint 3 origin -->
-  <xacro:property name="joint3_x" value="${joint1_x}" />
-  <xacro:property name="joint3_y" value="${joint2_y + 0.5}" />
-  <xacro:property name="joint3_z" value="${joint1_z}" />
+  <xacro:property name="joint3_x" value="${frame_x_origin}" />
+  <xacro:property name="joint3_y" value="${frame_y_origin + 0.2 + 0.5 + 0.5}" />
+  <xacro:property name="joint3_z" value="${frame_z_origin - 0.5}" />
 
 <!-- ramme på robotplatform -->
   <xacro:link_box link_name="frame" length="${frame_x_size}" width="${frame_y_size}" height="${frame_z_size}" density="1" mesh_name="nofile">
@@ -57,65 +57,14 @@
     <origin xyz="${frame_x_origin} ${frame_y_origin} ${frame_z_origin}" rpy="0 0 0"/>
   </xacro:link_box>
 
-<!-- link1 -->
-  <xacro:link_cylinder link_name="link1" radius="${link1_radius}" length="${link1_length}" density="1" mesh_name="nofile">
-    <!-- origin visual -->
-    <origin xyz="${joint1_x} ${joint1_y} ${joint1_z}" rpy="${M_PI/2} 0 0"/>
-    <!-- origin collision -->
-    <origin xyz="${joint1_x} ${joint1_y} ${joint1_z}" rpy="${M_PI/2} 0 0"/>
-    <!-- origin inertia -->
-    <origin xyz="${joint1_x} ${joint1_y} ${joint1_z}" rpy="${M_PI/2} 0 0"/>
-  </xacro:link_cylinder>
-
-<!-- link2 -->
-  <xacro:link_cylinder link_name="link2" radius="${link1_radius}" length="${link1_length}" density="1" mesh_name="nofile">
-    <!-- origin visual -->
-    <origin xyz="${joint2_x} ${joint2_y} ${joint2_z}" rpy="${M_PI/2} 0 0"/>
-    <!-- origin collision -->
-    <origin xyz="${joint2_x} ${joint2_y} ${joint2_z}" rpy="${M_PI/2} 0 0"/>
-    <!-- origin inertia -->
-    <origin xyz="${joint2_x} ${joint2_y} ${joint2_z}" rpy="${M_PI/2} 0 0"/>
-  </xacro:link_cylinder>
-
-<!-- tool -->
-  <xacro:link_box link_name="tool" length="${tool_length}" width="${tool_width}" height="${tool_height}" density="1" mesh_name="nofile">
-    <!-- origin visual -->
-    <origin xyz="${joint3_x} ${joint3_y} ${joint3_z}" rpy="0 0 0"/>
-    <!-- origin collision -->
-    <origin xyz="${joint3_x} ${joint3_y} ${joint3_z}" rpy="0 0 0"/>
-    <!-- origin inertia -->
-    <origin xyz="${joint3_x} ${joint3_y} ${joint3_z}" rpy="0 0 0"/>
-  </xacro:link_box>
-
-
-<!-- leddet mellom ramme og link1 -->
-  <joint name="link1_to_link2" type="revolute">
-    <origin xyz="${joint1_x} ${joint1_y} ${joint1_z}" rpy="0 0 0"/>
-    <parent link="link1"/>
-    <child link="link2"/>
-    <axis xyz="0 0 1" rpy="0 0 0"/>
-    <limit effort="100" velocity="100" lower="-${pi}" upper="${pi}"/>
-    <joint_properties damping="0.0" friction="0.0"/>
-  </joint>
-
-<!-- leddet mellom link1 og link2 -->
+  <!-- leddet mellom ramme og link1 -->
   <joint name="frame_to_link1" type="revolute">
-    <origin xyz="${joint2_x} ${joint2_y} ${joint2_z}" rpy="0 0 0"/>
+    <origin xyz="${joint1_x} ${joint1_y} ${joint1_z}" rpy="0 0 0"/>
     <parent link="frame"/>
     <child link="link1"/>
     <axis xyz="0 0 1" rpy="0 0 0"/>
-    <limit effort="100" velocity="100" lower="-${pi}" upper="${pi}"/>
+    <limit effort="100" velocity="100" lower="-${pi/2}" upper="${pi/2}"/>
     <joint_properties damping="0.0" friction="0.0"/>
-  </joint>
-
-<!-- Dette er ikke et ledd bare kobling mellom link2 og tool -->
-  <joint name="link2_to_tool" type="fixed">
-    <origin xyz="${joint3_x} ${joint3_y} ${joint3_z}" rpy="0 0 0"/>
-    <parent link="link2"/>
-    <child link="tool"/>
-    <!--axis xyz="0 0 1" rpy="0 0 0"/>
-    <limit effort="100" velocity="100"/>
-    <joint_properties damping="0.0" friction="0.0"/-->
   </joint>
 
   <transmission name="link1_tran">
@@ -129,6 +78,26 @@
     </actuator>
   </transmission>
 
+<!-- link1 -->
+  <xacro:link_cylinder link_name="link1" radius="${link1_radius}" length="${link1_length}" density="1" mesh_name="nofile">
+    <!-- origin visual -->
+    <origin xyz="${joint1_x} ${joint1_y + 0.25} ${joint1_z}" rpy="${M_PI/2} 0 0"/>
+    <!-- origin collision -->
+    <origin xyz="${joint1_x} ${joint1_y + 0.25} ${joint1_z}" rpy="${M_PI/2} 0 0"/>
+    <!-- origin inertia -->
+    <origin xyz="${joint1_x} ${joint1_y} ${joint1_z}" rpy="${M_PI/2} 0 0"/>
+  </xacro:link_cylinder>
+
+  <!-- leddet mellom link1 og link2 -->
+  <joint name="link1_to_link2" type="revolute">
+    <origin xyz="${joint2_x} ${joint2_y} ${joint2_z}" rpy="0 0 0"/>
+    <parent link="link1"/>
+    <child link="link2"/>
+    <axis xyz="0 0 1" rpy="0 0 0"/>
+    <limit effort="100" velocity="100" lower="-${pi/2}" upper="${pi/2}"/>
+    <joint_properties damping="0.0" friction="0.0"/>
+  </joint>
+
   <transmission name="link2_tran">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="link1_to_link2">
@@ -139,5 +108,34 @@
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
+
+<!-- link2 -->
+  <xacro:link_cylinder link_name="link2" radius="${link1_radius}" length="${link1_length}" density="1" mesh_name="nofile">
+    <origin xyz="${joint2_x} ${joint2_y + 0.25} ${joint2_z}" rpy="${M_PI/2} 0 0"/>
+    <!-- origin collision -->
+    <origin xyz="${joint2_x} ${joint2_y + 0.25} ${joint2_z}" rpy="${M_PI/2} 0 0"/>
+    <!-- origin inertia -->
+    <origin xyz="${joint2_x} ${joint2_y} ${joint2_z}" rpy="${M_PI/2} 0 0"/>
+  </xacro:link_cylinder>
+
+<!-- Dette er ikke et ledd bare kobling mellom link2 og tool -->
+  <joint name="link2_to_tool" type="fixed">
+    <origin xyz="${joint3_x} ${joint3_y} ${joint3_z}" rpy="0 0 0"/>
+    <parent link="link2"/>
+    <child link="tool"/>
+    <!--axis xyz="0 0 1" rpy="0 0 0"/>
+    <limit effort="100" velocity="100"/>
+    <joint_properties damping="0.0" friction="0.0"/-->
+  </joint>
+
+<!-- tool -->
+  <xacro:link_box link_name="tool" length="${tool_length}" width="${tool_width}" height="${tool_height}" density="1" mesh_name="nofile">
+    <!-- origin visual -->
+    <origin xyz="${joint3_x} ${joint3_y} ${joint3_z}" rpy="0 0 0"/>
+    <!-- origin collision -->
+    <origin xyz="${joint3_x} ${joint3_y} ${joint3_z}" rpy="0 0 0"/>
+    <!-- origin inertia -->
+    <origin xyz="${joint3_x} ${joint3_y} ${joint3_z}" rpy="0 0 0"/>
+  </xacro:link_box>
 
 </robot>
