@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<robot name="rocuto" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Included URDF/XACRO Files -->
+  <xacro:include filename="$(find rocuto_pkg)/urdf/frame.urdf.xacro" />
+  <xacro:include filename="$(find rocuto_pkg)/urdf/link.urdf.xacro" />
+  <xacro:include filename="$(find rocuto_pkg)/urdf/tool.urdf.xacro" />
+
+
+
+  <xacro:property name="M_PI" value="3.14159"/>
+
+  <!-- frame Size -->
+  <xacro:property name="frame_x_size" value="0.2" />
+  <xacro:property name="frame_y_size" value="0.2" />
+  <xacro:property name="frame_z_size" value="1" />
+
+  <!-- tool Positions
+  <xacro:property name="wheelbase" value="0.5120" />
+  <xacro:property name="track" value="0.5708" />
+  <xacro:property name="wheel_vertical_offset" value="0.03282" />
+	-->
+
+  <!-- link Properties -->
+  <xacro:property name="link1_length" value="0.5" />
+  <xacro:property name="link1_radius" value="0.2" />
+
+<!-- ramme på robotplatform -->
+  <link name="frame">
+    <!--<pose>0 0 0.1 0 0 0</pose> POSE ER KANSKJE IKKE NØDVENDIG-->
+    <visual name='frame_visual'>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.5 0.5 1"/>
+      </geometry>
+    </visual>
+  </link>
+
+<!-- link1 -->
+  <link name="link1">
+    <!--<pose>0 0 0.1 0 0 0</pose> POSE ER KANSKJE IKKE NØDVENDIG-->
+    <visual name='link1_visual'>
+      <origin xyz="0 ${frame_y_size} 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${link1_length}" radius="${link1_radius}"/>
+      </geometry>
+    </visual>
+  </link>
+
+<!-- link2 -->
+  <link name="link2">
+    <!--<pose>0 0 0.1 0 0 0</pose>POSE ER KANSKJE IKKE NØDVENDIG-->
+    <visual name='link1_visual'>
+      <origin xyz="0 (${link1_length}+${frame_y_size} 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${link1_length}" radius="${link1_radius}"/>
+      </geometry>
+    </visual>
+  </link>
+
+<!-- tool -->
+  <link name="tool">
+    <!--<pose>0 0 0.1 0 0 0</pose>POSE ER KANSKJE IKKE NØDVENDIG-->
+    <visual name='sphere_visual'>
+      <origin xyz="0 (${frame_y_size}+${link1_length}+${link1_length}) 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.5 0.5 0.5"/>
+      </geometry>
+    </visual>
+  </link>
+
+<!-- leddet mellom ramme og link1 -->
+  <joint name="link1_to_link2" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="link1"/>
+    <child link="link2"/>
+    <axis xyz="0 0 0" rpy="0 0 0"/>
+    <limit effort="100" velocity="100"/>
+    <joint_properties damping="0.0" friction="0.0"/>
+  </joint>
+
+<!-- leddet mellom link1 og link2 -->
+  <joint name="frame_to_link1" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="frame"/>
+    <child link="link1"/>
+    <axis xyz="0 0 0" rpy="0 0 0"/>
+    <limit effort="100" velocity="100"/>
+    <joint_properties damping="0.0" friction="0.0"/>
+  </joint>
+
+<!-- Dette er ikke et ledd bare kobling mellom link2 og tool -->
+  <joint name="link2_to_tool" type="continuous">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="link2"/>
+    <child link="tool"/>
+    <axis xyz="0 0 0" rpy="0 0 0"/>
+    <limit effort="100" velocity="100"/>
+    <joint_properties damping="0.0" friction="0.0"/>
+  </joint>
+
+</robot>
