@@ -11,7 +11,7 @@
   <!-- Combine joint values -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen">
     <param name="publish_frequency" type="double" value="100.0" />
-    <param name="tf_prefix" value="mobile_manipulator" />
+    <!-- <param name="tf_prefix" value="mobile_manipulator" /> -->
   </node>
 
   <rosparam file="$(find rocuto_pkg)/config/rocuto_control.yaml" command="load"/>
