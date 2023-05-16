@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
-
   <param name="rocuto" command="$(find xacro)/xacro '$(find rocuto_pkg)/urdf/rocuto_with_macros.urdf.xacro'"/>
   <remap from="/joint_states" to="/rocuto/joint_states" />
 
@@ -12,7 +11,7 @@
   <!-- Combine joint values (dete er lagt til) -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen">
     <param name="publish_frequency" type="double" value="100.0" />
-    <param name="tf_prefix" value="mobile_manipulator" />
+    <!--param name="tf_prefix" value="mobile_manipulator" /-->
   </node>
 
   <!-- henter kontrollfilen (dette er lagt til) -->

@@ -45,7 +45,7 @@
       <include file="$(find husky_gazebo)/launch/realsense.launch" />
     </group>
 
-    
+
 <include file="$(find mbs_husky_description)/launch/description.launch" />
 
     <!-- Spawn robot in gazebo -->
@@ -60,6 +60,22 @@
               -model husky
               -robot_namespace $(arg robot_namespace)" />
 
+
   </group>
+
+
+<include file="$(find rocuto_pkg)/launch/rocuto_allinone.launch" />
+
+<!-- Spawn robot in gazebo -->
+<node name="spawn_rocuto_model" pkg="gazebo_ros" type="spawn_model"
+    args="-x $(0)
+          -y $(05708)
+          -z $(0)
+          -Y $(0)
+          -unpause
+          -urdf
+          -param robot_description
+          -model rocuto
+          -robot_namespace $(rocuto)" />
 
 </launch>
