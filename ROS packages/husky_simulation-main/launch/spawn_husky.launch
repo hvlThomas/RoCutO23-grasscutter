@@ -3,7 +3,7 @@
 
   <!-- <arg name="multimaster" default="false"/> -->
 
-  <arg name="robot_namespace" default="/"/>
+  <arg name="robot_namespace" default="/husky"/>
 
   <arg name="x" default="0.0"/>
   <arg name="y" default="0.0"/>
@@ -68,14 +68,14 @@
 
 <!-- Spawn robot in gazebo -->
 <node name="spawn_rocuto_model" pkg="gazebo_ros" type="spawn_model"
-    args="-x $(0)
-          -y $(05708)
-          -z $(0)
-          -Y $(0)
+    args="-x 0
+          -y 05708
+          -z 0
+          -Y 0
           -unpause
           -urdf
           -param robot_description
           -model rocuto
-          -robot_namespace $(rocuto)" />
+          -robot_namespace rocuto" />
 
 </launch>
