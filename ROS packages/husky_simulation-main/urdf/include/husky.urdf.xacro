@@ -147,6 +147,12 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
     <child link="inertial_link" />
   </joint>
 
+  <joint name="rocuto_joint" type="fixed">
+    <origin xyz="0 0.5708 0" rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="frame" />
+  </joint>
+
   <!-- IMU Link is the standard mounting position for the UM6 IMU.-->
   <!-- Can be modified with environment variables in /etc/ros/setup.bash 0 -1.5708 3.1416-->
 <!--  <link name="imu_link"/>
