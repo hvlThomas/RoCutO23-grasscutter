@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="robot_namespace" default="/"/>
+  <arg name="laser_enabled" default="$(optenv HUSKY_LMS1XX_ENABLED false)"/>
+  <arg name="realsense_enabled" default="$(optenv HUSKY_REALSENSE_ENABLED true"/>
+  <arg name="urdf_extras" default="$(find rocuto_h23)/urdf/description/accessories_HVL.urdf.xacro"/>
+  <!-- <arg name="rocuto" default="$(find rocuto_h23)/urdf/rocuto_pkg/rocuto_with_macros.urdf.xacro"/> -->
+
+  <param name="robot_description"
+         command="$(find xacro)/xacro '$(find rocuto_h23)/urdf/description/include/husky.urdf.xacro'
+                    robot_namespace:=$(arg robot_namespace)
+                    laser_enabled:=$(arg laser_enabled)
+                    realsense_enabled:=$(arg realsense_enabled)
+                    urdf_extras:=$(arg urdf_extras)
+                    "/>
+</launch>

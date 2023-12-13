@@ -1,0 +1,24 @@
+<launch>
+  <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find rocuto_h23)/worlds/sim/tunnel_org.world"/>
+    <!-- more default parameters can be changed here -->
+    <!-- Launching Husky in the raspberry greenhouse tunnel field world -->
+
+<!--  this part to spawn the husky at the same time as the world. This comment is done for testing purposes
+
+	<include file="$(find husky_gazebo)/launch/spawn_husky.launch"></include>
+-->
+
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+<!-- this part to spawn the husky at the same time as the world. This comment is done for testing purposes-->
+
+	<include file="$(find rocuto_h23)/launch/sim/spawn_husky.launch"></include>
+
+
+</include>
+</launch>
