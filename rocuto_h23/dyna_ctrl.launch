@@ -1,0 +1,11 @@
+<launch>
+<node name="publisher" pkg="dynamixel_ctrl" type="publisher.py" >
+<!-- <rosparam command="load" name="$(find dynamixel_ctrl)/ctrl_table.yaml" /> -->
+</node>
+
+<node name="subscriber" pkg="dynamixel_ctrl" type="subscriber.py" >
+</node>
+
+
+
+</launch>
