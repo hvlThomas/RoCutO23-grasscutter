@@ -1,9 +1,0 @@
-joint_names:
-  - frame_to_link1
-  - link1_to_link2
-
-initial_positions:
-  - 0.0
-  - 0.0
-
-publish_rate: 10
